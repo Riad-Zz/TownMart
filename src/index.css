@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+.mulish{
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  font-weight:400;
+}
+
+.inter{
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+}
