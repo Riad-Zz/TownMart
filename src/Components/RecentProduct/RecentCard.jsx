@@ -1,5 +1,6 @@
 import React, { use } from 'react';
 import ProductCard from './ProductCard'
+import { Link } from 'react-router';
 
 const RecentCard = ({ prodctPromise }) => {
     const allRecentData = use(prodctPromise);
@@ -12,7 +13,9 @@ const RecentCard = ({ prodctPromise }) => {
                 }
             </div>
             <div className='flex justify-center mt-5'>
-                <button className='btn btn-primary'>Show All</button>
+                <Link to={'/allproduct'}>
+                 <button className='btn btn-primary'>Show All</button>
+                </Link>
 
             </div>
         </>
