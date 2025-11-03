@@ -20,6 +20,23 @@ const Login = () => {
             const user = result.user ;
             setUser(user) ;
             naviagate(location.state || '/') ;
+
+            const newUser ={
+                name : result.user.displayName ,
+                email : result.user.email,
+                photo : result.user.photoURL
+            }
+
+            //----------------Add to DB-----------------------------
+            fetch('http://localhost:3000/user',{
+                method : "POST" ,
+                headers : {
+                    'content-type' : "application/json" ,
+                },
+                body : JSON.stringify(newUser),
+            }).then(res => res.json())
+            .then(data => console.log("after add to DB: ",data))
+
         }).catch((error)=>{
             const errorMessage = error.message;
             console.log(errorMessage) ;

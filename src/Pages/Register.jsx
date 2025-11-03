@@ -29,6 +29,7 @@ const Register = () => {
                 photo : result.user.photoURL,
             }
 
+            //-------------------Add to DB--------------------
             fetch('http://localhost:3000/user',{
                 method : "POST" ,
                 headers : {
@@ -68,11 +69,12 @@ const Register = () => {
             return;
         }
 
+        //----------------Email Reguister-------------------------
         emailRegister(email, password).then((result) => {
             const user = result.user;
             naviagate(location.state || '/');
 
-
+        //--------------------------Update User Info(Live)----------------------------------
             updateUser({ displayName: name, photoURL: photo }).then(() => {
                 setUser({ ...user, displayName: name, photoURL: photo });
 
@@ -83,6 +85,7 @@ const Register = () => {
                     password : password,
                 }
 
+            //---------------------Add User to DB--------------------------------------
                 fetch('http://localhost:3000/user', {
                     method: "POST",
                     headers: {
@@ -97,7 +100,7 @@ const Register = () => {
                 toast.warning(error.message);
                 setUser(user)
             })
-            // setUser(user) ;
+            
         }).catch(error => {
             const errorMessage = error.message;
             toast.error(errorMessage);
