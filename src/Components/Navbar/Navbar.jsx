@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link, NavLink } from 'react-router';
 import logo from '../../assets/logoo.png'
+import { AuthContext } from '../../Provider/AuthProvider/AuthProvider';
+import defaultImage from '../../assets/thumb-profile.png'
 
 
 const Navbar = () => {
+
+    const { user, setUser,loading,LogOut  } = use(AuthContext);
+    // setUser(true);
+
+    const handleLogOut = () =>{
+        LogOut().then(()=>{
+
+        }).then((error)=>{
+            const errorMessage = error.message ;
+            console.log(errorMessage) ;
+        })
+    }
+
     const links = (
         <>
             <li>
@@ -88,11 +103,11 @@ const Navbar = () => {
                             className="w-20 h-20 relative  z-10"
                         />
                     </Link>
-                    <Link  to="/">
+                    <Link to="/">
                         <div className='hidden lg:flex text-3xl font-bold'>Town<span className="hidden lg:block text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]">
                             Mart
                         </span></div>
-                        
+
                     </Link>
                 </div>
 
@@ -103,7 +118,50 @@ const Navbar = () => {
 
                 {/*---------------------- Right Side Buttons ----------------------- */}
                 <div className="flex items-center gap-3 md:gap-5">
-                    <Link to="/login">
+                    {
+                        user ? (
+                            <div className="dropdown dropdown-end">
+                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        {
+                                            loading ? <span className="loading loading-spinner text-success"></span> :
+                                                <img src={`${user?.photoURL ? user?.photoURL : defaultImage}`}></img>
+                                        }
+                                    </div>
+                                </label>
+                                <ul
+                                    tabIndex={0}
+                                    className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-white rounded-box w-32"
+                                >
+                                    <li className="text-center">
+                                        <button onClick={handleLogOut}
+                                            
+                                            className="hover:bg-gray-200 w-full px-2 py-1 font-bold flex justify-center items-center text-center"
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+
+                            :
+                            <>
+                                <Link to="/login">
+                                    <button className="outline outline-[#632EE3]  text-black font-bold px-4 md:px-6 py-2 rounded hover:opacity-90 cursor-pointer">
+                                        Login
+                                    </button>
+                                </Link>
+                                <Link to="/register">
+                                    <button className="bg-linear-to-r from-[#632EE3]  to-[#9F62F2] text-white font-bold px-4 md:px-6 py-2 rounded cursor-pointer hover:opacity-90">
+                                        Register
+                                    </button>
+                                </Link>
+
+                            </>
+                    }
+
+                    {/* <Link to="/login">
                         <button className="outline outline-[#632EE3]  text-black font-bold px-4 md:px-6 py-2 rounded hover:opacity-90 cursor-pointer">
                             Login
                         </button>
@@ -112,7 +170,8 @@ const Navbar = () => {
                         <button className="bg-linear-to-r from-[#632EE3]  to-[#9F62F2] text-white font-bold px-4 md:px-6 py-2 rounded cursor-pointer hover:opacity-90">
                             Register
                         </button>
-                    </Link>
+                    </Link> */}
+
                 </div>
             </div>
         </div>
