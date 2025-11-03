@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="lg:max-w-11/12 mx-auto px-1 flex justify-between items-center h-18">
                 <div className="flex items-center relative">
                     {/*------------- Three bar for small screens----------------------- */}
-                    <div className="lg:hidden">
+                    <div className="xl:hidden">
                         <div className="dropdown">
                             <label tabIndex={0} className="btn btn-ghost btn-square">
                                 <svg
@@ -112,7 +112,7 @@ const Navbar = () => {
                 </div>
 
                 {/*---------------------- Mid Links--------------------------------- */}
-                <ul className="hidden lg:flex gap-10 text-gray-700 text-[16px]  midnav">
+                <ul className="hidden xl:flex gap-10 text-gray-700 text-[16px]  midnav">
                     {links}
                 </ul>
 
