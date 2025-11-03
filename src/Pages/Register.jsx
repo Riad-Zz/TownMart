@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 const Register = () => {
     const [eye, setEye] = useState(false);
-    const { gooogleLogin, setUser , emailRegister,updateUser} = use(AuthContext);
+    const { gooogleLogin, setUser, emailRegister, updateUser } = use(AuthContext);
     const location = useLocation();
     const naviagate = useNavigate();
 
@@ -17,26 +17,41 @@ const Register = () => {
     }
 
     //-------------Gogle Login----------------------------
-    const handleGoogleLogin = (e)=>{
-        e.preventDefault() ;
-        gooogleLogin().then((result)=>{
-            const user = result.user ;
-            setUser(user) ;
-            naviagate(location.state || '/') ;
-        }).catch((error)=>{
+    const handleGoogleLogin = (e) => {
+        e.preventDefault();
+        gooogleLogin().then((result) => {
+            const user = result.user;
+            setUser(user);
+            naviagate(location.state || '/'); 
+            const newUser = {
+                name : result.user.displayName ,
+                email : result.user.email,
+                photo : result.user.photoURL,
+            }
+
+            fetch('http://localhost:3000/user',{
+                method : "POST" ,
+                headers : {
+                    'content-type' : 'application/json',
+                },
+                body : JSON.stringify(newUser) ,
+            }).then(res => res.json())
+            .then(data => console.log("after : ",data))
+
+        }).catch((error) => {
             const errorMessage = error.message;
-            toast.warn(errorMessage) ;
+            toast.warn(errorMessage);
         })
     }
 
     //---------------------Email Login -----------------------------
-    const handleRegister = (e)=>{
-        e.preventDefault() ;
-        const name = e.target.name.value ;
-        const email = e.target.email.value ;
-        const photo = e.target.photo.value ;
-        const password = e.target.password.value ;
-        
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const photo = e.target.photo.value;
+        const password = e.target.password.value;
+
         //--------------Password Validation-----------------------
         if (!/[A-Z]/.test(password)) {
             toast.warning("Password must contain at least one uppercase letter (A-Z).");
@@ -53,23 +68,41 @@ const Register = () => {
             return;
         }
 
-        emailRegister(email,password).then((result)=>{
-            const user = result.user ;
-            naviagate(location.state || '/') ;
+        emailRegister(email, password).then((result) => {
+            const user = result.user;
+            naviagate(location.state || '/');
 
 
-            updateUser({ displayName: name, photoURL:photo }).then(()=>{
-                setUser({...user,displayName: name, photoURL:photo})
-            }).catch((error)=>{
-                toast.warning(error.message) ;
+            updateUser({ displayName: name, photoURL: photo }).then(() => {
+                setUser({ ...user, displayName: name, photoURL: photo });
+
+                const newUser = {
+                    name: name,
+                    email: email,
+                    photo: photo,
+                    password : password,
+                }
+
+                fetch('http://localhost:3000/user', {
+                    method: "POST",
+                    headers: {
+                        'content-type': "application/json"
+                    },
+                    body : JSON.stringify(newUser) ,
+                }).
+                    then(res => res.json()).
+                    then(data => console.log("new data : ", data))
+
+            }).catch((error) => {
+                toast.warning(error.message);
                 setUser(user)
             })
             // setUser(user) ;
-        }).catch(error=>{
-            const errorMessage = error.message ;
-            toast.error(errorMessage) ;
+        }).catch(error => {
+            const errorMessage = error.message;
+            toast.error(errorMessage);
         })
-        
+
     }
 
     return (
@@ -122,7 +155,7 @@ const Register = () => {
                     }
                 </div>
 
-                <button  className="btn mt-7 mb-3 bg-linear-to-r from-[#632EE3] to-[#9F62F2] transition font-bold border-none text-white w-full py-3 rounded-lg">
+                <button className="btn mt-7 mb-3 bg-linear-to-r from-[#632EE3] to-[#9F62F2] transition font-bold border-none text-white w-full py-3 rounded-lg">
                     Register
                 </button>
 
