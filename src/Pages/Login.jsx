@@ -20,7 +20,7 @@ const Login = () => {
             const user = result.user ;
             setUser(user) ;
             naviagate(location.state || '/') ;
-        }).then((error)=>{
+        }).catch((error)=>{
             const errorMessage = error.message;
             console.log(errorMessage) ;
         })

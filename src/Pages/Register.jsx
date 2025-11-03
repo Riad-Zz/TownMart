@@ -2,10 +2,11 @@ import React, { use, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const [eye, setEye] = useState(false);
-    const { gooogleLogin, setUser } = use(AuthContext);
+    const { gooogleLogin, setUser , emailRegister,updateUser} = use(AuthContext);
     const location = useLocation();
     const naviagate = useNavigate();
 
@@ -22,15 +23,58 @@ const Register = () => {
             const user = result.user ;
             setUser(user) ;
             naviagate(location.state || '/') ;
-        }).then((error)=>{
+        }).catch((error)=>{
             const errorMessage = error.message;
-            console.log(errorMessage) ;
+            toast.warn(errorMessage) ;
         })
+    }
+
+    //---------------------Email Login -----------------------------
+    const handleRegister = (e)=>{
+        e.preventDefault() ;
+        const name = e.target.name.value ;
+        const email = e.target.email.value ;
+        const photo = e.target.photo.value ;
+        const password = e.target.password.value ;
+        
+        //--------------Password Validation-----------------------
+        if (!/[A-Z]/.test(password)) {
+            toast.warning("Password must contain at least one uppercase letter (A-Z).");
+            return;
+        }
+
+        if (!/[a-z]/.test(password)) {
+            toast.warning("Password must contain at least one lowercase letter (a-z).");
+            return;
+        }
+
+        if (password.length < 6) {
+            toast.warning("Password must be at least 6 characters long.");
+            return;
+        }
+
+        emailRegister(email,password).then((result)=>{
+            const user = result.user ;
+            naviagate(location.state || '/') ;
+
+
+            updateUser({ displayName: name, photoURL:photo }).then(()=>{
+                setUser({...user,displayName: name, photoURL:photo})
+            }).catch((error)=>{
+                toast.warning(error.message) ;
+                setUser(user)
+            })
+            // setUser(user) ;
+        }).catch(error=>{
+            const errorMessage = error.message ;
+            toast.error(errorMessage) ;
+        })
+        
     }
 
     return (
         <div className='flex justify-center items-center min-h-screen mt-5 md:mt-0 p-2 bg-gray-100'>
-            <form className='bg-white lg:py-24 rounded-xl shadow-md border border-gray-200 w-full max-w-md lg:max-w-2xl p-8 md:p-12'>
+            <form onSubmit={handleRegister} className='bg-white lg:py-24 rounded-xl shadow-md border border-gray-200 w-full max-w-md lg:max-w-2xl p-8 md:p-12'>
 
                 <p className='text-black playfair-display-font text-3xl md:text-4xl text-center font-semibold mb-8'>
                     Create a New Account
@@ -41,7 +85,7 @@ const Register = () => {
                     type="text"
                     className="input mb-3 w-full bg-[#F3F3F3] py-4 px-4 rounded-lg outline-none"
                     placeholder="Enter Your Name"
-                    name='names'
+                    name='name'
                     required
                 />
 
@@ -78,7 +122,7 @@ const Register = () => {
                     }
                 </div>
 
-                <button className="btn mt-7 mb-3 bg-linear-to-r from-[#632EE3] to-[#9F62F2] transition font-bold border-none text-white w-full py-3 rounded-lg">
+                <button  className="btn mt-7 mb-3 bg-linear-to-r from-[#632EE3] to-[#9F62F2] transition font-bold border-none text-white w-full py-3 rounded-lg">
                     Register
                 </button>
 
