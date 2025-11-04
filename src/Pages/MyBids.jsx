@@ -1,6 +1,7 @@
 import React, { use, useEffect } from 'react';
-import { useLoaderData } from 'react-router';
+import { data, useLoaderData } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const MyBids = () => {
     const { mybids, setmyBids } = use(AuthContext)
@@ -10,7 +11,40 @@ const MyBids = () => {
         setmyBids(allMyBids);
     }, [allMyBids, setmyBids]);
 
-    console.log(mybids);
+    //---------------Remove Bids-----------------------------------
+
+    const handleRemoveBid = (_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(_id)
+                fetch(`http://localhost:3000/bids/${_id}`, {
+                    method: "DELETE",
+                }).then(res => res.json())
+                    .then(data => {
+                        // console.log(data);
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                            const remainingBids = mybids.filter(bid => bid._id != _id) ;
+                            setmyBids(remainingBids) ;
+                        }
+                    })
+            }
+        });
+    }
+
+    // console.log(mybids);
     return (
         <div className='min-h-screen max-w-10/12 mx-auto'>
             <p className='text-center text-[#001931] text-5xl font-bold pt-10'>My Bids : <span className='text-transparent bg-clip-text bg-linear-to-r from-[#632EE3]  to-[#9F62F2]'>{mybids.length}</span></p>
@@ -31,8 +65,8 @@ const MyBids = () => {
                     <tbody>
                         {/* row 1 */}
                         {
-                            allMyBids.map((bid,index) => <tr key={bid._id}>
-                                <th>{index+1}</th>
+                            mybids.map((bid, index) => <tr key={bid._id}>
+                                <th>{index + 1}</th>
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
@@ -50,12 +84,12 @@ const MyBids = () => {
                                 </td>
                                 <td>
                                     {bid.bid_price}
-                                    
-                                    
+
+
                                 </td>
                                 <td><div className="badge badge-warning">{bid.status}</div></td>
                                 <th>
-                                    <button className="btn bg-none btn-outline text-red-500 btn-xs">Remove Bid</button>
+                                    <button onClick={() => handleRemoveBid(bid._id)} className="btn bg-none btn-outline text-red-500 btn-xs">Remove Bid</button>
                                 </th>
                             </tr>)
                         }
