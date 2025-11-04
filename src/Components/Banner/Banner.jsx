@@ -2,6 +2,7 @@ import React from 'react';
 import leftbg from '../../assets/bg-hero-left.png'
 import rightbg from '../../assets/bg-hero-right.png'
 import { CiSearch } from "react-icons/ci";
+import { Link } from 'react-router';
 
 const Banner = () => {
     return (
@@ -22,9 +23,11 @@ const Banner = () => {
 
                 </div>
                 <div className='flex justify-center items-center mt-7 gap-4 flex-wrap'>
+                    <Link to={`/allproduct`}>
                     <button className="bg-linear-to-r from-[#632EE3]  to-[#9F62F2] text-white font-bold px-4 md:px-6 py-3 rounded cursor-pointer hover:opacity-90">
                         Watch All Product
                     </button>
+                    </Link>
                     <button className="outline outline-[#632EE3]  text-black font-bold px-4 md:px-6 py-3 rounded hover:opacity-90 cursor-pointer">
                         Post an Product
                     </button>

@@ -5,18 +5,23 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import AllProduct from "../Pages/AllProduct";
 import CardDetails from "../Components/CardDetails/CardDetails";
+import PrivateRoutes from "../Provider/PrivateRoutes/PrivateRoutes";
 
 
 export const router = createBrowserRouter([
     {
-        path : "/" ,
-        Component : Root,
-        children :[
-            {index : true , Component :Home},
-            {path: '/login' , Component :Login },
-            {path : '/register' , Component :Register },
-            {path : '/allproduct',Component : AllProduct} ,
-            {path : '/details/:id',Component : CardDetails}
+        path: "/",
+        Component: Root,
+        children: [
+            { index: true, Component: Home },
+            { path: '/login', Component: Login },
+            { path: '/register', Component: Register },
+            { path: '/allproduct', Component: AllProduct },
+            {
+                path: '/details/:id',
+                element : <PrivateRoutes><CardDetails></CardDetails></PrivateRoutes>,
+                loader: ({ params }) => fetch(`http://localhost:3000/product/${params.id}`)
+            }
         ]
     }
 ])
