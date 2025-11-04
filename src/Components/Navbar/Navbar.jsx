@@ -47,7 +47,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="/bids"
+                    to={`/mybids/${user?.email}`}
                     className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
                 >
                     My Bids

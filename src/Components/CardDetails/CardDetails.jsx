@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { use, useRef } from 'react';
 import { FaMapLocation } from 'react-icons/fa6';
 import { FiPhoneIncoming } from 'react-icons/fi';
 import { TbArrowNarrowLeft } from 'react-icons/tb';
 import { useLoaderData, useNavigate, useNavigation } from 'react-router';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../Provider/AuthProvider/AuthProvider';
 
 
 const StatusBadge = ({ status }) => {
@@ -32,6 +33,7 @@ const CardDetails = () => {
     const data = useLoaderData();
     // console.log(data) ;
     const navigate = useNavigate();
+    const { user, mybids, setmyBids } = use(AuthContext)
     const {
         _id,
         title,
@@ -74,10 +76,10 @@ const CardDetails = () => {
 
         const newBids = {
             product: _id,
-            buyer_image: image,
-            buyer_name: name ,
+            buyer_image: user.photoURL,
+            buyer_name: user.displayName,
             buyer_contact: contact,
-            buyer_email: email,
+            buyer_email: user.email,
             bid_price: price,
             status: "pending",
         }
@@ -88,13 +90,20 @@ const CardDetails = () => {
             headers: {
                 'content-type': "application/json",
             },
-            body: JSON.stringify(newBids) ,
+            body: JSON.stringify(newBids),
         }).then(res => res.json())
-            .then(data => console.log("After : ", data))
+            .then(data => {
+                console.log("After : ", data);
+                if (data.insertedId) {
+                    newBids._id = data.insertedId;
+                    console.log("New Bid with ID:", newBids);
+                }
+            })
 
-        e.target.reset() ;
-        ref.current.close() ;
-        toast.success("Bid Submitted Succesfully !") ;
+        e.target.reset();
+        ref.current.close();
+        setmyBids([...mybids,newBids])
+        toast.success("Bid Submitted Succesfully !");
     }
 
     return (
@@ -223,8 +232,10 @@ const CardDetails = () => {
                                         <input
                                             type="text"
                                             placeholder="Your name"
+                                            value={user.displayName}
                                             required
-                                            className="input input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300"
+                                            readOnly
+                                            className="input cursor-not-allowed input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300"
                                             name="buyerName"
                                         />
                                     </div>
@@ -234,8 +245,10 @@ const CardDetails = () => {
                                         <input
                                             type="email"
                                             placeholder="Your Email"
+                                            value={user.email}
+                                            readOnly
                                             required
-                                            className="input input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300"
+                                            className="input input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300 cursor-not-allowed"
                                             name="buyerEmail"
                                         />
                                     </div>
@@ -243,12 +256,14 @@ const CardDetails = () => {
 
                                 {/* Image URL */}
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-[#374151]">Buyer Image URL</label>
+                                    <label className="block mb-2 text-sm font-medium text-[#374151] ">Buyer Image URL</label>
                                     <input
                                         type="text"
                                         required
+                                        value={user.photoURL}
+                                        readOnly
                                         placeholder="https://...your_img_url"
-                                        className="input input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300"
+                                        className="cursor-not-allowed input input-bordered w-full bg-gray-50 focus:outline-none focus:border-gray-300"
                                         name="buyerImage"
                                     />
                                 </div>
@@ -279,7 +294,7 @@ const CardDetails = () => {
 
                                 {/* Buttons */}
                                 <div className="flex justify-end gap-3 pt-5">
-                                    <button type='button' onClick={()=>ref.current.close()} className="btn btn-outline btn-primary">
+                                    <button type='button' onClick={() => ref.current.close()} className="btn btn-outline btn-primary">
                                         Cancel
                                     </button>
                                     <button

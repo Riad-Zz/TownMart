@@ -6,6 +6,7 @@ import Register from "../Pages/Register";
 import AllProduct from "../Pages/AllProduct";
 import CardDetails from "../Components/CardDetails/CardDetails";
 import PrivateRoutes from "../Provider/PrivateRoutes/PrivateRoutes";
+import MyBids from "../Pages/MyBids";
 
 
 export const router = createBrowserRouter([
@@ -21,6 +22,11 @@ export const router = createBrowserRouter([
                 path: '/details/:id',
                 element : <PrivateRoutes><CardDetails></CardDetails></PrivateRoutes>,
                 loader: ({ params }) => fetch(`http://localhost:3000/product/${params.id}`)
+            },
+            {
+                path : '/mybids/:email' ,
+                element : <PrivateRoutes><MyBids></MyBids></PrivateRoutes> ,
+                loader : ({params})=>fetch(`http://localhost:3000/bids?email=${params.email}`)
             }
         ]
     }

@@ -10,6 +10,7 @@ const googleProvider = new GoogleAuthProvider() ;
 const AuthProvider = ({children}) => {
     const [user,setUser] = useState(null) ;
     const [loading,setLoading] = useState(true) ;
+    const [mybids,setmyBids] = useState("");
 
 
     //-----------------Google Login -------------------------
@@ -47,7 +48,9 @@ const AuthProvider = ({children}) => {
         gooogleLogin,
         LogOut,
         emailRegister,
-        updateUser
+        updateUser,
+        mybids,
+        setmyBids,
     }
     return (
         <div>
