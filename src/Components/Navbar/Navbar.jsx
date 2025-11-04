@@ -125,7 +125,7 @@ const Navbar = () => {
                                     <div className="w-10 rounded-full">
                                         {
                                             loading ? <span className="loading loading-spinner text-success"></span> :
-                                                <img onError={(e) => { e.target.src = {defaultImage} }} src={`${user?.photoURL ? user?.photoURL : defaultImage}` }></img>
+                                                <img  src={`${user?.photoURL ? user?.photoURL : defaultImage}` }></img>
                                         }
                                     </div>
                                 </label>
