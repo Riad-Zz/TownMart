@@ -1,9 +1,13 @@
 import React from 'react';
 import AllProductLayout from '../Components/AllProductCards/AllProductLayout';
+import { useLoaderData } from 'react-router';
 
-const productPromise = fetch('http://localhost:3000/product').then(res => res.json())
+
+
+// const productPromise = fetch('http://localhost:3000/product').then(res => res.json())
 
 const AllProduct = () => {
+    const productPromise = useLoaderData() ;
     return (
         <div>
             <div className='bg-[#F5F5F5] pb-10'>

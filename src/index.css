@@ -3,13 +3,23 @@
   themes: light --default;
 }
 
-.mulish{
+.mulish {
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
-  font-weight:400;
+  font-weight: 400;
 }
 
-.inter{
+.inter {
   font-family: "Inter", sans-serif;
   font-style: normal;
+}
+
+.navactive.active {
+  background: linear-gradient(to right, #632ee3, #9f62f2, #9f62f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  display: inline-block; /* needed for border-bottom */
+  border-bottom: 2px solid #9f62f2; /* underline color */
+  padding-bottom: 2px; /* space between text and underline */
 }

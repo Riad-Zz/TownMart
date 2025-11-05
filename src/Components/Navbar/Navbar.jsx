@@ -24,7 +24,7 @@ const Navbar = () => {
             <li>
                 <NavLink
                     to="/"
-                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
+                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2] navactive"
                 >
                     Home
                 </NavLink>
@@ -32,15 +32,15 @@ const Navbar = () => {
             <li>
                 <NavLink
                     to="/allproduct"
-                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
+                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2] navactive"
                 >
                     All Product
                 </NavLink>
             </li>
             <li>
                 <NavLink
-                    to="/myproduct"
-                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
+                    to={`/myproduct/${user?.email}`}
+                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2] navactive"
                 >
                     My Product
                 </NavLink>
@@ -48,15 +48,15 @@ const Navbar = () => {
             <li>
                 <NavLink
                     to={`/mybids/${user?.email}`}
-                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
+                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2] navactive"
                 >
                     My Bids
                 </NavLink>
             </li>
             <li>
                 <NavLink
-                    to="/create"
-                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2]"
+                    to="/createproduct"
+                    className="hover:text-transparent text-black  bg-clip-text bg-linear-to-r from-[#632EE3] via-[#9F62F2] to-[#9F62F2] navactive"
                 >
                     Create Product
                 </NavLink>

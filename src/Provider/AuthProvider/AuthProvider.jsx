@@ -12,6 +12,8 @@ const AuthProvider = ({children}) => {
     const [loading,setLoading] = useState(true) ;
     const [mybids,setmyBids] = useState([]) ;
     const [productBids,setProductBid] = useState([]) ;
+    const [myProduct,setMyProduct] = useState([]) ;
+    const [allProduct,setAllProduct] = useState([]) ;
 
 
     //-----------------Google Login -------------------------
@@ -61,6 +63,10 @@ const AuthProvider = ({children}) => {
         emailLogin,
         productBids,
         setProductBid,
+        myProduct,
+        setMyProduct,
+        allProduct,
+        setAllProduct,
     }
     return (
         <div>
