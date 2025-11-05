@@ -1,4 +1,4 @@
-import React, { use, useRef } from 'react';
+import React, { use, useEffect, useRef } from 'react';
 import { FaMapLocation } from 'react-icons/fa6';
 import { FiPhoneIncoming } from 'react-icons/fi';
 import { TbArrowNarrowLeft } from 'react-icons/tb';
@@ -33,7 +33,7 @@ const CardDetails = () => {
     const data = useLoaderData();
     // console.log(data) ;
     const navigate = useNavigate();
-    const { user, mybids, setmyBids } = use(AuthContext)
+    const { user, mybids, setmyBids, productBids, setProductBid } = use(AuthContext)
     const {
         _id,
         title,
@@ -102,9 +102,19 @@ const CardDetails = () => {
 
         e.target.reset();
         ref.current.close();
-        setmyBids([...mybids,newBids])
+        setmyBids([...mybids, newBids]) 
+        setProductBid([...productBids,newBids]) ;
         toast.success("Bid Submitted Succesfully !");
     }
+
+
+    useEffect(() => {
+        fetch(`http://localhost:3000/product/bid/${_id}`)
+            .then(res => res.json()).then(data => {
+                setProductBid(data);
+            })
+    }, [])
+
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 font-sans">
@@ -312,6 +322,59 @@ const CardDetails = () => {
 
 
                 </div>
+            </div>
+
+            <p className='text-center text-[#001931] text-5xl font-bold pt-10'>Bid for this Product : <span className='text-transparent bg-clip-text bg-linear-to-r from-[#632EE3]  to-[#9F62F2]'>{productBids.length}</span></p>
+
+            <div className="max-w-10/12 mx-auto overflow-x-auto mt-10 bg-gray-50 rounded-lg p-3">
+                <table className="table">
+                    {/* head */}
+                    <thead>
+                        <tr>
+
+                            <th>SL NO</th>
+                            <th>Buyer</th>
+                            <th>Bid Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* row 1 */}
+                        {
+                            productBids.map((bid, index) => <tr key={bid._id}>
+                                <th>{index + 1}</th>
+                                <td>
+                                    <div className="flex items-center gap-3">
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle h-12 w-12">
+                                                <img
+                                                    src={bid.buyer_image}
+                                                    alt="Avatar Tailwind CSS Component" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">{bid.buyer_name}</div>
+                                            <div className="text-sm opacity-50">{bid.buyer_email}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {bid.bid_price}
+
+
+                                </td>
+                                <td><div className="badge badge-warning">{bid.status}</div></td>
+                                <th className='flex gap-2'>
+                                    <button className="btn bg-none btn-outline text-green-500 btn-xs font-bold">Accept Offer</button>
+                                    <button className="btn bg-none btn-outline text-red-500 btn-xs">Remove Bid</button>
+                                </th>
+                            </tr>)
+                        }
+
+                    </tbody>
+
+                </table>
             </div>
         </div>
     );
