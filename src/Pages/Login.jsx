@@ -2,10 +2,11 @@ import React, { use, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [eye,setEye] = useState(false) ;
-    const {gooogleLogin,setUser} = use(AuthContext) ;
+    const {gooogleLogin,setUser,emailLogin} = use(AuthContext) ;
     const location = useLocation() ;
     const naviagate = useNavigate() ;
 
@@ -42,9 +43,25 @@ const Login = () => {
             console.log(errorMessage) ;
         })
     }
+
+    const handleEmailLogin = (e)=> {
+        e.preventDefault() ;
+        const password = e.target.password.value ;
+        const email = e.target.email.value ;
+        emailLogin(email,password).then((result)=>{
+            const Currentuser = result.user ;
+            setUser(Currentuser) ;
+            naviagate(location.state || '/') ;
+        })
+        .then((error)=>{
+            toast.warning(error.message) ;
+        })
+    }
+
+
     return (
         <div className='flex justify-center items-center min-h-screen mt-5 md:mt-0 p-2 bg-gray-100'>
-            <form className='bg-white lg:py-24 rounded-xl shadow-md border border-gray-200 w-full max-w-md lg:max-w-2xl p-8 md:p-12'>
+            <form onSubmit={handleEmailLogin} className='bg-white lg:py-24 rounded-xl shadow-md border border-gray-200 w-full max-w-md lg:max-w-2xl p-8 md:p-12'>
 
                 <p className='text-black playfair-display-font text-3xl md:text-4xl text-center font-semibold mb-8'>
                     Login to your account
