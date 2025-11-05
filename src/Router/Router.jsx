@@ -35,7 +35,8 @@ export const router = createBrowserRouter([
             },
             {
                 path : '/myproduct/:email' ,
-                element : <PrivateRoutes><MyProduct></MyProduct></PrivateRoutes>
+                element : <PrivateRoutes><MyProduct></MyProduct></PrivateRoutes> ,
+                loader : ({params}) => fetch(`http://localhost:3000/product/?email=${params.email}`)
             }
             ,
             {
