@@ -3,22 +3,31 @@ import { data, useLoaderData } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const MyBids = () => {
     const { mybids, setmyBids,user } = use(AuthContext)
+    const axiosInterceptor = useAxiosSecure() ;
 
 
-    useEffect(() => {
-        fetch(`https://town-mart-server.vercel.app/bids?email=${user.email}`,{
-            headers : {
-                authorization : `Bearer ${user.accessToken}`
-            },
-        })
-        .then((res)=> res.json())
+    // useEffect(() => {
+    //     fetch(`https://town-mart-server.vercel.app/bids?email=${user.email}`,{
+    //         headers : {
+    //             authorization : `Bearer ${user.accessToken}`
+    //         },
+    //     })
+    //     .then((res)=> res.json())
+    //     .then(data => {
+    //         setmyBids(data);
+    //     })
+    // }, [user]);
+
+    useEffect(()=>{
+        axiosInterceptor.get(`/bids?email=${user.email}`)
         .then(data => {
-            setmyBids(data);
+            setmyBids(data.data) ;
         })
-    }, [user]);
+    },[]) 
 
     // useEffect(() => {
     //     axios(`https://town-mart-server.vercel.app/bids?email=${user.email}`)

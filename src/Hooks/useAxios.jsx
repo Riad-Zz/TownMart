@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
 })
 
 
-
 const useAxios = () => {
     return axiosInstance ;
 };

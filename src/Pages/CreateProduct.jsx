@@ -8,6 +8,7 @@ import useAxiosSecure from '../Hooks/useAxiosSecure';
 const CreateProduct = () => {
 
     const axiosInstance = useAxios();
+    
     const axiosIns = useAxiosSecure();
 
     const { myProduct, setMyProduct, user, allProduct, setAllProduct } = use(AuthContext);
