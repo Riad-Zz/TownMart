@@ -18,7 +18,7 @@ const MyBids = () => {
         .then(data => {
             setmyBids(data);
         })
-    }, [setmyBids,user.email,mybids,user.accessToken]);
+    }, [user]);
 
     // useEffect(() => {
     //     axios(`https://town-mart-server.vercel.app/bids?email=${user.email}`)
