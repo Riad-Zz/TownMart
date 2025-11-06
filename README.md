@@ -8,8 +8,6 @@ It functions as a lightweight OLX/Craigslist-style platform — with an integrat
 
 ## **Tech Stack**
 
-### **Icons Overview**
-
 ![Stack Icons](https://skillicons.dev/icons?i=react,html,css,js,nodejs,express,mongodb,firebase,git,github)
 
 ### **Technology Table**
