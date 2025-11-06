@@ -4,12 +4,19 @@ import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 
 const MyBids = () => {
-    const { mybids, setmyBids } = use(AuthContext)
-    const allMyBids = useLoaderData();
+    const { mybids, setmyBids,user } = use(AuthContext)
 
     useEffect(() => {
-        setmyBids(allMyBids);
-    }, [allMyBids, setmyBids]);
+        fetch(`http://localhost:3000/bids?email=${user.email}`,{
+            headers : {
+                authorization : `Bearer ${user.accessToken}`
+            },
+        })
+        .then((res)=> res.json())
+        .then(data => {
+            setmyBids(data);
+        })
+    }, [setmyBids,user.email,mybids,user.accessToken]);
 
     //---------------Remove Bids-----------------------------------
 

@@ -28,9 +28,12 @@ const Banner = () => {
                         Watch All Product
                     </button>
                     </Link>
+                    <Link to={'/createproduct'}>
                     <button className="outline outline-[#632EE3]  text-black font-bold px-4 md:px-6 py-3 rounded hover:opacity-90 cursor-pointer">
                         Post an Product
                     </button>
+                    
+                    </Link>
 
                 </div>
             </div>

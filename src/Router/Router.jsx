@@ -31,7 +31,6 @@ export const router = createBrowserRouter([
             {
                 path : '/mybids/:email' ,
                 element : <PrivateRoutes><MyBids></MyBids></PrivateRoutes> ,
-                loader : ({params})=>fetch(`http://localhost:3000/bids?email=${params.email}`)
             },
             {
                 path : '/myproduct/:email' ,
