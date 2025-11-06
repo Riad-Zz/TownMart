@@ -3,12 +3,14 @@ import { data, Link } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import axios from 'axios';
 import useAxios from '../Hooks/useAxios';
+import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const CreateProduct = () => {
 
-    const axiosInstance = useAxios() ;
+    const axiosInstance = useAxios();
+    const axiosIns = useAxiosSecure();
 
-    const {myProduct,setMyProduct,user,allProduct,setAllProduct} = use(AuthContext) ;
+    const { myProduct, setMyProduct, user, allProduct, setAllProduct } = use(AuthContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,7 +51,7 @@ const CreateProduct = () => {
 
 
         //-----------------Normal fetch----------------
-        
+
         // fetch('https://town-mart-server.vercel.app/product',{
         //     method : "POST" ,
         //     headers : {
@@ -62,7 +64,7 @@ const CreateProduct = () => {
         //     e.target.reset() ;
         //     console.log(data) ;
         // })
-    
+
         //----------------Usign Axios------------------- 
         // axios.post(`https://town-mart-server.vercel.app/product`,newProduct)
         // .then(data => {
@@ -75,15 +77,26 @@ const CreateProduct = () => {
         // })
 
         //----------------------Using Axios Instance---------------------------
-        axiosInstance.post(`/product`,newProduct)
-        .then(data => {
-            if(data.data.insertedId){
-                setMyProduct([...myProduct,newProduct]) ; 
-            setAllProduct([...allProduct,newProduct]) ;
-            e.target.reset() ;
-            console.log(data) ;
-            }
-        })
+        // axiosInstance.post(`/product`,newProduct)
+        // .then(data => {
+        //     if(data.data.insertedId){
+        //         setMyProduct([...myProduct,newProduct]) ; 
+        //     setAllProduct([...allProduct,newProduct]) ;
+        //     e.target.reset() ;
+        //     console.log(data) ;
+        //     }
+        // })
+
+        //-------------------Using Axios Intercipator--------------------
+        axiosIns.post(`/product`, newProduct)
+            .then(data => {
+                if (data.data.insertedId) {
+                    setMyProduct([...myProduct, newProduct]);
+                    setAllProduct([...allProduct, newProduct]);
+                    e.target.reset();
+                    console.log(data);
+                }
+            })
     };
 
     return (
