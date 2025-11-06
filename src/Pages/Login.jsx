@@ -29,7 +29,7 @@ const Login = () => {
             }
 
             //----------------Add to DB-----------------------------
-            fetch('http://localhost:3000/user',{
+            fetch('https://town-mart-server.vercel.app/user',{
                 method : "POST" ,
                 headers : {
                     'content-type' : "application/json" ,

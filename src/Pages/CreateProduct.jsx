@@ -1,8 +1,12 @@
 import React, { use } from 'react';
 import { data, Link } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
+import axios from 'axios';
+import useAxios from '../Hooks/useAxios';
 
 const CreateProduct = () => {
+
+    const axiosInstance = useAxios() ;
 
     const {myProduct,setMyProduct,user,allProduct,setAllProduct} = use(AuthContext) ;
 
@@ -42,21 +46,44 @@ const CreateProduct = () => {
         };
 
         // console.log("✅ New Product Created:", newProduct);
+
+
+        //-----------------Normal fetch----------------
         
-        fetch('http://localhost:3000/product',{
-            method : "POST" ,
-            headers : {
-                'content-type' : 'application/json' 
-            },
-            body : JSON.stringify(newProduct) ,
-        }).then(res => res.json()).then(data =>{
-            setMyProduct([...myProduct,newProduct]) ; 
+        // fetch('https://town-mart-server.vercel.app/product',{
+        //     method : "POST" ,
+        //     headers : {
+        //         'content-type' : 'application/json' 
+        //     },
+        //     body : JSON.stringify(newProduct) ,
+        // }).then(res => res.json()).then(data =>{
+        //     setMyProduct([...myProduct,newProduct]) ; 
+        //     setAllProduct([...allProduct,newProduct]) ;
+        //     e.target.reset() ;
+        //     console.log(data) ;
+        // })
+    
+        //----------------Usign Axios------------------- 
+        // axios.post(`https://town-mart-server.vercel.app/product`,newProduct)
+        // .then(data => {
+        //     if(data.data.insertedId){
+        //         setMyProduct([...myProduct,newProduct]) ; 
+        //     setAllProduct([...allProduct,newProduct]) ;
+        //     e.target.reset() ;
+        //     console.log(data) ;
+        //     }
+        // })
+
+        //----------------------Using Axios Instance---------------------------
+        axiosInstance.post(`/product`,newProduct)
+        .then(data => {
+            if(data.data.insertedId){
+                setMyProduct([...myProduct,newProduct]) ; 
             setAllProduct([...allProduct,newProduct]) ;
             e.target.reset() ;
             console.log(data) ;
+            }
         })
-
-
     };
 
     return (

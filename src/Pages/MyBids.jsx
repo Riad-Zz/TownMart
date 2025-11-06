@@ -2,12 +2,14 @@ import React, { use, useEffect } from 'react';
 import { data, useLoaderData } from 'react-router';
 import { AuthContext } from '../Provider/AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const MyBids = () => {
     const { mybids, setmyBids,user } = use(AuthContext)
 
+
     useEffect(() => {
-        fetch(`http://localhost:3000/bids?email=${user.email}`,{
+        fetch(`https://town-mart-server.vercel.app/bids?email=${user.email}`,{
             headers : {
                 authorization : `Bearer ${user.accessToken}`
             },
@@ -17,6 +19,13 @@ const MyBids = () => {
             setmyBids(data);
         })
     }, [setmyBids,user.email,mybids,user.accessToken]);
+
+    // useEffect(() => {
+    //     axios(`https://town-mart-server.vercel.app/bids?email=${user.email}`)
+    //     .then(data => {
+    //         setmyBids(data.data) ;
+    //     })
+    // }, []);
 
     //---------------Remove Bids-----------------------------------
 
@@ -32,7 +41,7 @@ const MyBids = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log(_id)
-                fetch(`http://localhost:3000/bids/${_id}`, {
+                fetch(`https://town-mart-server.vercel.app/bids/${_id}`, {
                     method: "DELETE",
                 }).then(res => res.json())
                     .then(data => {

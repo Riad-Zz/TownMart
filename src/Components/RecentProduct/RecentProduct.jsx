@@ -1,7 +1,7 @@
 import React from 'react';
 import RecentCard from './RecentCard';
 
-const prodctPromise = fetch('http://localhost:3000/recentproduct').then(res => res.json()) ;
+const prodctPromise = fetch('https://town-mart-server.vercel.app/recentproduct').then(res => res.json()) ;
 
 const RecentProduct = () => {
     return (

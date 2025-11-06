@@ -4,7 +4,7 @@ import { useLoaderData } from 'react-router';
 
 
 
-// const productPromise = fetch('http://localhost:3000/product').then(res => res.json())
+// const productPromise = fetch('https://town-mart-server.vercel.app/product').then(res => res.json())
 
 const AllProduct = () => {
     const productPromise = useLoaderData() ;

@@ -85,7 +85,7 @@ const CardDetails = () => {
         }
 
         // console.log(name,email,image,price,contact) ;
-        fetch('http://localhost:3000/bids', {
+        fetch('https://town-mart-server.vercel.app/bids', {
             method: "POST",
             headers: {
                 'content-type': "application/json",
@@ -109,7 +109,7 @@ const CardDetails = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:3000/product/bid/${_id}`)
+        fetch(`https://town-mart-server.vercel.app/product/bid/${_id}`)
             .then(res => res.json()).then(data => {
                 setProductBid(data);
             })

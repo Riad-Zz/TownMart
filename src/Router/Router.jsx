@@ -21,12 +21,12 @@ export const router = createBrowserRouter([
             { path: '/register', Component: Register },
             { path: '/allproduct', 
                 Component: AllProduct , 
-                loader :()=> fetch('http://localhost:3000/product') 
+                loader :()=> fetch('https://town-mart-server.vercel.app/product') 
             },
             {
                 path: '/details/:id',
                 element : <PrivateRoutes><CardDetails></CardDetails></PrivateRoutes>,
-                loader: ({ params }) => fetch(`http://localhost:3000/product/${params.id}`)
+                loader: ({ params }) => fetch(`https://town-mart-server.vercel.app/product/${params.id}`)
             },
             {
                 path : '/mybids/:email' ,
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
             {
                 path : '/myproduct/:email' ,
                 element : <PrivateRoutes><MyProduct></MyProduct></PrivateRoutes> ,
-                loader : ({params}) => fetch(`http://localhost:3000/product/?email=${params.email}`)
+                loader : ({params}) => fetch(`https://town-mart-server.vercel.app/product/?email=${params.email}`)
             }
             ,
             {
